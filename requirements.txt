@@ -1,0 +1,34 @@
+# Backend AgeCare — dependencias de Python.
+# Versiones fijadas (pip freeze) después de instalar limpio y correr el
+# proyecto end-to-end (migraciones + servidor + pruebas de los endpoints)
+# contra un PostgreSQL 16 real. Instalar con:
+#     pip install -r requirements.txt
+
+# --- Framework API y servidor ---
+fastapi==0.141.1
+starlette==1.7.0
+uvicorn[standard]==0.54.0
+python-multipart==0.0.32
+
+# --- Validación de datos ---
+pydantic==2.13.5
+pydantic-settings==2.15.0
+email-validator==2.3.0
+
+# --- Base de datos ---
+sqlalchemy[asyncio]==2.1.1
+asyncpg==0.31.0
+alembic==1.20.0
+greenlet==3.5.6
+
+# --- Seguridad ---
+pyjwt==2.15.0
+passlib[argon2]==1.7.4
+argon2-cffi==25.1.0
+
+# --- Utilidades ---
+python-dotenv==1.2.3
+anyio==4.15.1
+
+# --- Cliente HTTP (usado en pruebas/scripts, opcional para producción) ---
+httpx==0.28.1

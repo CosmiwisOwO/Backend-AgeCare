@@ -1,0 +1,32 @@
+# Levanta un PostgreSQL local equivalente (misma versión mayor, 16) al que
+# se usará en Azure Database for PostgreSQL Flexible Server, para desarrollo
+# y para correr las migraciones de Alembic sin depender de la nube.
+#
+# Uso:
+#   docker compose up -d        # levanta la base de datos
+#   docker compose down         # la detiene (los datos persisten en el volumen)
+#   docker compose down -v      # la detiene y BORRA los datos (reset total)
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: agecare_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: agecare
+      POSTGRES_PASSWORD: agecare
+      POSTGRES_DB: agecare
+    ports:
+      # host:contenedor -- coincide con DATABASE_URL de .env.example
+      - "5432:5432"
+    volumes:
+      - agecare_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agecare -d agecare"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  agecare_pgdata:
